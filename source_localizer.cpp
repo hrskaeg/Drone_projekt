@@ -4,6 +4,8 @@
 #include <iostream>
 #include "acoustics_simulator.h"
 
+
+
 std::vector<double> calRelativeTDOA(const std::vector<int>& triggerIndexes, double triggerLevel)
 {
 
@@ -39,6 +41,6 @@ std::vector<int> findTriggerIndexes(const Microphones& mics, double triggerLevel
         int index = trigger_detector(mic.getRecordedData(), triggerLevel);
         triggerIndexes.push_back(index);
     }
-    
+
     return triggerIndexes;
 }
