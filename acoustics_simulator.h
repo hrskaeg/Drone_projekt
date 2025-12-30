@@ -12,7 +12,7 @@ using namespace std;
 
 #define DEFAULT_SPEED_OF_SOUND 343.0 // in meters per second
 #define SAMPLE_RATE 50000 // in Hz
-#define TIME_BLOCK 0.1 // in seconds  
+#define TIME_BLOCK 0.4 // in seconds  
 
 extern double timeBlockSamples;
 
