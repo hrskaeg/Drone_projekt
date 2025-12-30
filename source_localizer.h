@@ -5,23 +5,30 @@
 
 
 
+
 struct TDOAFunctor {
     using Scalar = double;
+
+    enum {
+        InputsAtCompileTime = 3,
+        ValuesAtCompileTime = Eigen::Dynamic
+    };
+
     using InputType = Eigen::VectorXd;
     using ValueType = Eigen::VectorXd;
     using JacobianType = Eigen::MatrixXd;
 
-    const std::vector<Microphone::position>& micpos;
+    const std::vector<Vector3D>& micpos;
     const std::vector<double>& tdoa;
     double v;  // speed of sound
 
-    TDOAFunctor(const std::vector<Microphone::position>& m,
+    TDOAFunctor(const std::vector<Vector3D>& m,
                 const std::vector<double>& t,
                 double soundSpeed)
         : micpos(m), tdoa(t), v(soundSpeed) {}
 
     int inputs() const { return 3; }                 // x, y, z
-    int values() const { return int(mics.size()) - 1; } // N-1 residuals
+    int values() const { return int(micpos.size()) - 1; } // N-1 residuals
 
     int operator()(const Eigen::VectorXd& p,
                    Eigen::VectorXd& fvec) const {
@@ -59,55 +66,9 @@ class Localizer
 
 };
 
-
-
-
-
-std::vector<Microphone::position> getMicrophonePositions(const Microphones& microphones)
-{
-    std::vector<Microphone::position> positions;
-    for (const auto& mic : microphones.mics)
-    {
-        positions.push_back(mic.position);
-    }
-    return positions;
-}
-
-std::vector<double> calRelativeTDOA(const std::vector<int>& triggerIndexes, double triggerLevel)
-{
-
-    std::vector<double> relativeTDOA(triggerIndexes.size());
-    for (int i = 0; i < triggerIndexes.size(); i++)
-    {
-        double relTime = (triggerIndexes[i] - triggerIndexes[0]) / SAMPLE_RATE;
-        relativeTDOA[i] = relTime;
-    }
-    return relativeTDOA;
-}
-
-std::vector<int> findTriggerIndexes(const std::vector<std::vector<double>>& signals, double triggerLevel)
-{
-    std::vector<int> triggerIndexes(signals.size());
-    for (const auto& signal : signals)
-    {
-        int index = trigger_detector(signal, triggerLevel);
-        triggerIndexes.push_back(index);
-    }
-
-    return triggerIndexes;
-}
-
-int trigger_detector(const std::vector<double>& signal, double triggerLevel)
-{
-    for(int i = 0; i < signal.size(); ++i)
-    {
-        if(signal[i] >= triggerLevel){
-            return i;
-        }
-    }
-    
-    return -1; // No trigger found  
-}
+std::vector<double> calRelativeTDOA(const std::vector<int>& triggerIndexes, double triggerLevel);
+int trigger_detector(const std::vector<double>& signal, double triggerLevel);
+std::vector<int> findTriggerIndexes(const Microphones& mics, double triggerLevel);
 
 
 

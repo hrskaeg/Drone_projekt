@@ -2,6 +2,9 @@
 #include "source_localizer.h"
 #include "microphones.h"
 #include <iostream>
+#include <Eigen/Dense>
+#include <unsupported/Eigen/NumericalDiff>
+#include <unsupported/Eigen/NonLinearOptimization>
 using namespace std;
 
 
@@ -12,32 +15,52 @@ int main()
  
     //initialize microphone positions and sound event
     Microphones micArray;
-    simulator.addMicrophone("mic0_ref", Vector3D(0, 0, 0));
-    simulator.addMicrophone("mic1", Vector3D(1, 0, 0));
-    simulator.addMicrophone("mic2", Vector3D(0, 1, 0));
-    simulator.addMicrophone("mic3", Vector3D(0, 0, 1));
-    simulator.addMicrophone("mic4", Vector3D(1, 1, 1));
     
-    AcousticsSimulator simulator; 
+    micArray.addMicrophone("mic0_ref", Vector3D(0, 0, 0));
+    micArray.addMicrophone("mic1", Vector3D(1, 0, 0));
+    micArray.addMicrophone("mic2", Vector3D(0, 1, 0));
+    micArray.addMicrophone("mic3", Vector3D(0, 0, 1));
+    micArray.addMicrophone("mic4", Vector3D(1, 1, 1));
     
-    simulator.addSoundEvent("event0", Vector3D(7, 3, 1), 1.0, TRANSIENT);
+    AcousticsSimulator simulator(micArray);
+    
+    simulator.addSoundSource("event0", Vector3D(7, 3, 1), 1.0, sound_event_type::TRANSIENT);
 
     //simulate recorded data for each microphone
-    for (const auto& mic : simulator.getMicrophones()) 
+    for (auto& mic : micArray.mics) 
     {
-        mic->updateRecordedData(simulator.generateTimeblock(*mic, *simulator.getSoundEvent()));
+        mic.updateRecordedData(simulator.generateTimeblock(mic, *simulator.getSoundEvent()));
     }
 
+    
 
-    //initialize microphone array
-    Microphones micArray;
     //calculate TDOAs
+    std::vector<double> relTDOA = calRelativeTDOA(findTriggerIndexes(micArray, 0.5),0.5);
 
-
+    std::cout<< "Relative TDOAs:\n";
+    for(const auto& tdoa : relTDOA)
+    {
+        std::cout << tdoa << " ";
+    }
     
+    std::vector<Vector3D> micPos = micArray.getMicrophonePositions(micArray); //Find ud af hvordan man kalder funktionen på objektet uden parametre.
 
 
+    TDOAFunctor functor(micPos, relTDOA, DEFAULT_SPEED_OF_SOUND);
 
-    
-    
+    Eigen::NumericalDiff<TDOAFunctor> numDiff(functor);
+    Eigen::LevenbergMarquardt<Eigen::NumericalDiff<TDOAFunctor>> lm(numDiff);
+
+    lm.parameters.maxfev = 200;
+    lm.parameters.xtol = 1e-6;
+    lm.parameters.ftol = 1e-6;
+
+     Eigen::VectorXd p(3);
+    p << 2.5, 1.5, 1.0;  // initial guess
+
+    auto status = lm.minimize(p);
+
+    std::cout << "Estimated position: ("
+              << p[0] << ", " << p[1] << ", " << p[2] << ")\n";
+    std::cout << "Status: " << status << std::endl;
 }

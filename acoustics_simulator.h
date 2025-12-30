@@ -1,8 +1,11 @@
+#pragma once
+
 #include <vector>
 #include <cmath>
 #include <string>
 #include <memory>
 #include "microphones.h"
+
 
 using namespace std;
 
@@ -11,7 +14,7 @@ using namespace std;
 #define SAMPLE_RATE 50000 // in Hz
 #define TIME_BLOCK 0.1 // in seconds  
 
-double timeBlockSamples = SAMPLE_RATE * TIME_BLOCK;
+extern double timeBlockSamples;
 
 enum sound_event_type {
     TRANSIENT,
@@ -26,9 +29,10 @@ class soundSource {
     double transient_amplitude;
     sound_event_type event_type;
     string id;
-    soundSource(double amplitude = 1.0){
+    soundSource(double amplitude = 1.0)
+    {
         transient_amplitude = amplitude;
-        }
+    }
 };
 
 

@@ -48,12 +48,30 @@ class Microphone {
     void updateRecordedData(const vector<double>& new_data){
         recorded_data = new_data;
     }
+    vector<double> getRecordedData() const {
+        return recorded_data;
+    }
 };
 
 struct Microphones {
-    vector<Microphone>& mics;
-    Microphones(vector<Microphone>& microphones) : mics(microphones) {}
-    void addMicrophone(const string& id, const Vector3D& position);
+    vector<Microphone> mics;
+    Microphones() {}
+    void addMicrophone(const string& id, const Vector3D& position)
+    {
+        Microphone mic;
+        mic.id = id;
+        mic.position = position;
+        mics.push_back(mic);
+    }
+    std::vector<Vector3D> getMicrophonePositions(const Microphones& microphones)
+    {
+        std::vector<Vector3D> positions;
+        for (const auto& mic : microphones.mics)
+        {
+            positions.push_back(mic.position);
+        }
+        return positions;
+    }
 };
 
 #endif // MICROPHONE_H
