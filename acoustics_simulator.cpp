@@ -1,3 +1,5 @@
+
+
 #include "acoustics_simulator.h"
 #include <cmath>
 
@@ -25,3 +27,4 @@ vector<double> AcousticsSimulator::generateTimeblock(Microphone& mic, source_sou
 
 }
 }
+

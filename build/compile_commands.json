@@ -1,0 +1,20 @@
+[
+{
+  "directory": "C:/Users/Mads/OneDrive - Aarhus universitet/Dokumenter/Synced VSC folder/projects/drone_projekt/git/Drone_projekt/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/main.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\main.dir\\main.cpp.obj -c \"C:\\Users\\Mads\\OneDrive - Aarhus universitet\\Dokumenter\\Synced VSC folder\\projects\\drone_projekt\\git\\Drone_projekt\\main.cpp\"",
+  "file": "C:/Users/Mads/OneDrive - Aarhus universitet/Dokumenter/Synced VSC folder/projects/drone_projekt/git/Drone_projekt/main.cpp",
+  "output": "CMakeFiles/main.dir/main.cpp.obj"
+},
+{
+  "directory": "C:/Users/Mads/OneDrive - Aarhus universitet/Dokumenter/Synced VSC folder/projects/drone_projekt/git/Drone_projekt/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/main.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\main.dir\\acoustics_simulator.cpp.obj -c \"C:\\Users\\Mads\\OneDrive - Aarhus universitet\\Dokumenter\\Synced VSC folder\\projects\\drone_projekt\\git\\Drone_projekt\\acoustics_simulator.cpp\"",
+  "file": "C:/Users/Mads/OneDrive - Aarhus universitet/Dokumenter/Synced VSC folder/projects/drone_projekt/git/Drone_projekt/acoustics_simulator.cpp",
+  "output": "CMakeFiles/main.dir/acoustics_simulator.cpp.obj"
+},
+{
+  "directory": "C:/Users/Mads/OneDrive - Aarhus universitet/Dokumenter/Synced VSC folder/projects/drone_projekt/git/Drone_projekt/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/main.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\main.dir\\source_localizer.cpp.obj -c \"C:\\Users\\Mads\\OneDrive - Aarhus universitet\\Dokumenter\\Synced VSC folder\\projects\\drone_projekt\\git\\Drone_projekt\\source_localizer.cpp\"",
+  "file": "C:/Users/Mads/OneDrive - Aarhus universitet/Dokumenter/Synced VSC folder/projects/drone_projekt/git/Drone_projekt/source_localizer.cpp",
+  "output": "CMakeFiles/main.dir/source_localizer.cpp.obj"
+}
+]
